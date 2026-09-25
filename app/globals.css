@@ -807,3 +807,26 @@ main:focus { outline: none; }
   .tampon, .registre, .note, .chemise__couverture, .sommaire__onglets button { border: 1px solid CanvasText; }
   .feuille-volante::before { display: none; }
 }
+
+/* ---------- Corrections mobile ---------- */
+
+/* l'épaisseur de la pile et les éléments inclinés ne doivent jamais créer de défilement horizontal */
+.page { overflow-x: clip; }
+/* la feuille reçoit le focus pour la lecture, pas besoin de cadre */
+.pile__feuille:focus, .pile__feuille:focus-visible { outline: none; }
+.bulletin legend { margin-bottom: 4px; line-height: 1.25; }
+
+@media (max-width: 640px) {
+  /* le registre reste en tête du dossier, sans coller à l'écran : le sommaire suffit */
+  .suivi { position: static; margin-bottom: 20px; }
+  .menu { gap: 2px 16px; }
+  .face-a-face { grid-template-columns: 1fr; }
+  .face-a-face > div:first-child { text-align: left; padding: 0 0 20px; border-right: 0; border-bottom: 2px dashed var(--encre); }
+  .face-a-face > div:last-child { padding: 20px 0 0; }
+  .chemise--fermee .chemise__couverture { aspect-ratio: auto; min-height: 200px; }
+  .chemise-dos { padding-left: 6px; padding-right: 6px; }
+  .pile::before { inset: 8px -4px -8px 4px; }
+  .pile::after { inset: 16px -6px -16px 6px; }
+  .sommaire { padding: 10px 10px calc(10px + env(safe-area-inset-bottom, 0px)); gap: 6px 10px; }
+  .sommaire__tourner { padding: 9px 10px; font-size: 13px; }
+}
