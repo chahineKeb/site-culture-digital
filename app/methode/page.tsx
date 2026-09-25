@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function Methode() {
   return (
-    <main className="page">
+    <main className="page" id="contenu" tabIndex={-1}>
       <div className="feuille">
         <Entete droite="Règlement de la greffe" actif="/methode/" />
 

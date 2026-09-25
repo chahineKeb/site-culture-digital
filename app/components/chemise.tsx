@@ -18,16 +18,14 @@ export function Chemise({ d, enTete = false }: { d: Dossier; enTete?: boolean })
     <>
       <span className="chemise__onglet">Dossier n°{d.numero}</span>
       <span className="chemise__feuille" aria-hidden="true" />
-      <span className="chemise__couverture">
-        <span className="chemise__etiquette">
+      <div className="chemise__couverture">
+        <div className="chemise__etiquette">
           <span className="chemise__numero">
             République du Feed, affaire de {d.annee}
           </span>
-          <span className="chemise__titre" style={{ display: "block" }}>
-            {d.titre}
-          </span>
-        </span>
-        <span className="chemise__accroche">{d.accroche}</span>
+          <h2 className="chemise__titre">{d.titre}</h2>
+        </div>
+        <p className="chemise__accroche">{d.accroche}</p>
         {d.statut === "instruit" ? (
           <span className="tampon" aria-hidden="true">INSTRUIT</span>
         ) : (
@@ -36,7 +34,7 @@ export function Chemise({ d, enTete = false }: { d: Dossier; enTete?: boolean })
           </span>
         )}
         {d.statut === "instruit" && <span className="chemise__action">Ouvrir le dossier</span>}
-      </span>
+      </div>
     </>
   );
 
@@ -54,7 +52,14 @@ export function Chemise({ d, enTete = false }: { d: Dossier; enTete?: boolean })
   }
 
   return (
-    <Link href={href} className={classe} style={style} data-ouverte={ouverte} onClick={ouvrir}>
+    <Link
+      href={href}
+      className={classe}
+      style={style}
+      data-ouverte={ouverte}
+      onClick={ouvrir}
+      aria-label={`Ouvrir le dossier : ${d.titre}`}
+    >
       {interieur}
     </Link>
   );

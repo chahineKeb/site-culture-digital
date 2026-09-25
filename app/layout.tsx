@@ -17,7 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body>{children}</body>
+      <body>
+        <a className="evitement" href="#contenu">
+          Aller au contenu
+        </a>
+        {children}
+      </body>
     </html>
   );
 }

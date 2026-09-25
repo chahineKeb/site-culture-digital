@@ -50,7 +50,8 @@ export function Bulletin({
               onChange={() => voter(lettre)}
             />
             <span className="choix__case">
-              {vote === lettre ? "☒" : "☐"} {lettre}.
+              <span aria-hidden="true">{vote === lettre ? "☒" : "☐"} </span>
+              {lettre}.
             </span>
             <span>{choix[lettre]}</span>
           </label>
@@ -111,7 +112,9 @@ export function SuiviDuRegistre() {
       <ul>
         {GARANTIES.map((g, i) => (
           <li key={g.nom} data-manque={i < manquantes}>
-            {i < manquantes ? "✗" : "☐"} {g.nom}
+            <span aria-hidden="true">{i < manquantes ? "✗" : "☐"} </span>
+            {g.nom}
+            <span className="sr-only">{i < manquantes ? " : absente" : " : pas encore examinée"}</span>
           </li>
         ))}
       </ul>

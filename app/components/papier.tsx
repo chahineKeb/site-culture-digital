@@ -16,12 +16,29 @@ const MENU = [
   { href: "/a-propos/", label: "À propos" },
 ];
 
+/** Logo : tampon « RF », République du Feed. Décoratif, le nom est écrit à côté. */
+export function Logo({ taille = 34 }: { taille?: number }) {
+  return (
+    <svg className="logo" viewBox="0 0 48 48" width={taille} height={taille} aria-hidden="true" focusable="false">
+      <g transform="rotate(-6 24 24)" fill="none" stroke="currentColor" strokeLinecap="square">
+        <rect x="5" y="5" width="38" height="38" strokeWidth="3.2" />
+        <rect x="10" y="10" width="28" height="28" strokeWidth="1.4" />
+        <g strokeWidth="3.6">
+          <path d="M15.5 32V16h6a4.25 4.25 0 0 1 0 8.5h-6M20.5 24.5 24 32" />
+          <path d="M28 32V16h6.5M28 23.5h5" />
+        </g>
+      </g>
+    </svg>
+  );
+}
+
 /** En-tête de feuille : papier à lettre officiel + menu du site. */
 export function Entete({ droite, actif }: { droite: ReactNode; actif?: string }) {
   return (
     <header className="entete">
       <div className="entete__ligne">
-        <Link href="/">
+        <Link href="/" className="marque">
+          <Logo />
           <strong>RÉPUBLIQUE DU FEED</strong>
         </Link>
         <span>{droite}</span>
@@ -69,9 +86,10 @@ export function Piece({
   children: ReactNode;
 }) {
   const classe = papier === "blanc" ? "piece" : `piece piece--${papier}`;
+  // L'intercalaire sert de nom à la section pour les lecteurs d'écran.
   return (
-    <section id={id} className={classe}>
-      {onglet}
+    <section id={id} className={classe} aria-labelledby={onglet ? `${id}-onglet` : undefined}>
+      {onglet && <div id={`${id}-onglet`}>{onglet}</div>}
       <div className="flux">{children}</div>
     </section>
   );
@@ -152,6 +170,8 @@ export function ListeGaranties({
   );
 }
 
+const COMPTEURS: Record<string, string> = { "❤️": "j'aime", "🔁": "partages", "💬": "réponses" };
+
 export function Tweet({
   pseudo,
   compteurs,
@@ -169,9 +189,16 @@ export function Tweet({
         <p className="tweet__texte">{children}</p>
         {compteurs && (
           <p className="tweet__compteurs">
-            {compteurs.map((c) => (
-              <span key={c}>{c}</span>
-            ))}
+            {compteurs.map((c) => {
+              const [emoji, nombre] = c.split(" ");
+              return (
+                <span key={c}>
+                  <span aria-hidden="true">{emoji} </span>
+                  {nombre}
+                  <span className="sr-only"> {COMPTEURS[emoji] ?? ""}</span>
+                </span>
+              );
+            })}
           </p>
         )}
       </div>

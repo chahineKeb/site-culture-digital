@@ -4,7 +4,7 @@ import { Pied } from "./components/role";
 
 export default function PieceIntrouvable() {
   return (
-    <main className="page">
+    <main className="page" id="contenu" tabIndex={-1}>
       <div className="feuille">
         <Entete droite="Erreur 404" />
         <Piece id="introuvable">

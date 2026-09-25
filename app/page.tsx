@@ -10,7 +10,7 @@ export default function Accueil() {
   const [enTete, ...suite] = dossiers;
 
   return (
-    <main className="page">
+    <main className="page" id="contenu" tabIndex={-1}>
       <div className="feuille">
         <Entete droite="Greffe des affaires en ligne" actif="/" />
 

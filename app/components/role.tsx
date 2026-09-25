@@ -6,18 +6,16 @@ export function ProchainDossier() {
   return (
     <div className="chemise chemise--fermee" style={{ "--tab": "transparent" } as CSSProperties}>
       <span className="chemise__onglet">Prochain dossier</span>
-      <span className="chemise__couverture">
-        <span className="chemise__etiquette">
+      <div className="chemise__couverture">
+        <div className="chemise__etiquette">
           <span className="chemise__numero">En instruction</span>
-          <span className="chemise__titre" style={{ display: "block" }}>
-            Affaire à venir
-          </span>
-        </span>
-        <span className="chemise__accroche">
+          <h2 className="chemise__titre">Affaire à venir</h2>
+        </div>
+        <p className="chemise__accroche">
           Une nouvelle affaire est en cours d&apos;écriture. Elle rejoindra
           l&apos;étagère dès que ses sources seront vérifiées.
-        </span>
-      </span>
+        </p>
+      </div>
     </div>
   );
 }

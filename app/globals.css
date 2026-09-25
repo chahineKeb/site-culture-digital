@@ -13,7 +13,7 @@
   --note: #e8e2d3;
   --encre: #1a1a1a;
   --gris: #5b636a;
-  --gris-clair: #8a9197;
+  --gris-clair: #5f666c; /* ≥ 4.5:1 sur blanc et coquille d'oeuf */
   --rouge: #b0121a;
   --vert: #2f5d3a;
 
@@ -200,7 +200,7 @@ ul, ol { padding: 0; list-style: none; }
 .registre__item { white-space: nowrap; color: var(--gris-clair); }
 .registre__item--manque { color: var(--rouge); font-weight: bold; }
 .registre__item--ok { color: var(--vert); font-weight: bold; }
-.piece--rouge .registre__item { color: #f0c2c4; }
+.piece--rouge .registre__item { color: #fde3e4; }
 .piece--rouge .registre__item--manque { color: var(--papier); }
 .registre__commentaire { margin-top: 12px; font-size: 15px; line-height: 1.6; }
 .registre__ligne + .registre__ligne { margin-top: 20px; }
@@ -275,7 +275,7 @@ ul, ol { padding: 0; list-style: none; }
 
 .cercle li { font-size: 18px; line-height: 1.5; }
 .cercle li + li { margin-top: 6px; }
-.cercle li:nth-child(n + 2)::before { content: "→ "; color: var(--rouge); }
+.cercle li:nth-child(n + 2)::before { content: "→ "; content: "→ " / ""; color: var(--rouge); }
 .cercle li:nth-child(2) { padding-left: 18px; }
 .cercle li:nth-child(3) { padding-left: 36px; }
 .cercle li:nth-child(4) { padding-left: 54px; }
@@ -513,7 +513,7 @@ a.affaire:hover .affaire__titre { text-decoration: underline; text-decoration-th
   animation: none;
   transform: rotate(-9deg);
   font-size: 14px;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.85);
 }
 .chemise--tete .chemise__titre { font-size: 30px; }
 
@@ -613,7 +613,7 @@ a.chemise:hover .chemise__action { text-decoration: underline; }
   font-family: var(--mono);
   font-size: 11px;
   line-height: 16px;
-  opacity: 0.75;
+  color: var(--gris);
 }
 .feuille-volante--rouge .folio { color: var(--papier); }
 .feuille-volante .entete + .piece { padding-top: 40px; }
@@ -775,4 +775,35 @@ a.chemise:hover .chemise__action { text-decoration: underline; }
 }
 @media (max-width: 640px) {
   .sommaire__onglets button { min-width: 30px; padding: 0 4px; }
+}
+
+
+/* ---------- Accessibilité ---------- */
+
+.evitement {
+  position: absolute;
+  left: 12px;
+  top: -80px;
+  z-index: 100;
+  padding: 12px 18px;
+  background: var(--encre);
+  color: var(--papier);
+  font-weight: bold;
+  text-decoration: none;
+}
+.evitement:focus { top: 12px; }
+main:focus { outline: none; }
+.pile__feuille:focus { outline: none; }
+.pile__feuille:focus-visible { outline: 3px solid var(--rouge); outline-offset: 6px; }
+.piece--rouge :focus-visible { outline-color: var(--papier); }
+.menu a, .entete__ligne a { text-underline-offset: 3px; }
+
+/* Logo */
+.marque { display: inline-flex; align-items: center; gap: 10px; }
+.logo { flex: none; color: var(--rouge); }
+.chemise__numero { display: block; }
+
+@media (forced-colors: active) {
+  .tampon, .registre, .note, .chemise__couverture, .sommaire__onglets button { border: 1px solid CanvasText; }
+  .feuille-volante::before { display: none; }
 }

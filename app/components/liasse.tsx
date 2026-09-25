@@ -11,6 +11,7 @@ import {
   useEffect,
   useRef,
   useState,
+  useSyncExternalStore,
   type CSSProperties,
   type ReactNode,
 } from "react";
@@ -40,9 +41,15 @@ export function Liasse({
   const debutTouche = useRef<{ x: number; y: number } | null>(null);
 
   const activeRef = useRef(0);
+  // Avant que le script tourne (ou sans JavaScript), aucune feuille n'est bloquée.
+  const pret = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
   const aller = useCallback(
-    (cible: number, ancre?: string) => {
+    (cible: number, ancre?: string, focus = false) => {
       if (cible < 0 || cible >= total) return;
       const courante = activeRef.current;
       const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -55,6 +62,12 @@ export function Liasse({
       requestAnimationFrame(() => {
         const el = ancre ? document.getElementById(ancre) : pile.current;
         if (!el) return;
+        // Sommaire et liens : on place le focus sur la feuille ouverte pour
+        // que la lecture (clavier, lecteur d'écran) reprenne au bon endroit.
+        if (focus) {
+          const feuille = pile.current?.querySelector<HTMLElement>(`[data-feuille="${cible}"]`);
+          feuille?.focus({ preventScroll: true });
+        }
         const y = el.getBoundingClientRect().top + window.scrollY - 24;
         if (!ancre && y > window.scrollY) return; // déjà en haut de la pile
         window.scrollTo({ top: y, behavior: reduit ? "auto" : "smooth" });
@@ -69,7 +82,7 @@ export function Liasse({
       const el = document.getElementById(id);
       const feuille = el?.closest<HTMLElement>("[data-feuille]");
       if (!feuille) return false;
-      aller(Number(feuille.dataset.feuille), id);
+      aller(Number(feuille.dataset.feuille), id, true);
       return true;
     },
     [aller],
@@ -86,6 +99,7 @@ export function Liasse({
     function touche(e: KeyboardEvent) {
       const cible = e.target as HTMLElement;
       if (cible.closest("input, textarea, select")) return;
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
       if (e.key === "ArrowRight") aller(active + 1);
       if (e.key === "ArrowLeft") aller(active - 1);
     }
@@ -106,6 +120,10 @@ export function Liasse({
 
   return (
     <div className="feuilletage">
+      {/* Sans JavaScript, toutes les feuilles restent lisibles, les unes sous les autres. */}
+      <noscript>
+        <style>{`.pile__feuille[data-etat] { display: block !important; margin-bottom: 32px; } .sommaire { display: none; }`}</style>
+      </noscript>
       <div className="chemise-dos" style={{ "--tab": couleur } as CSSProperties}>
       <span className="chemise-dos__onglet">{onglet}</span>
       <div
@@ -137,8 +155,11 @@ export function Liasse({
               className="pile__feuille"
               data-feuille={i}
               data-etat={etat}
-              aria-hidden={i !== active}
-              inert={i !== active}
+              aria-hidden={pret && i !== active ? true : undefined}
+              inert={pret && i !== active}
+              tabIndex={-1}
+              aria-label={`Feuille ${i + 1} sur ${total} : ${sommaire[i]?.label ?? ""}`}
+              role="group"
               onAnimationEnd={() => {
                 if (sortie?.index === i) setSortie(null);
               }}
@@ -168,7 +189,7 @@ export function Liasse({
                 aria-current={i === active ? "step" : undefined}
                 aria-label={`Feuille ${i + 1} : ${s.label}`}
                 title={s.label}
-                onClick={() => aller(i)}
+                onClick={() => aller(i, undefined, true)}
               >
                 {i + 1}
               </button>

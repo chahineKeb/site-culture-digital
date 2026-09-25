@@ -131,7 +131,7 @@ const SOURCES: { titre: string; sources: Source[] }[] = [
 
 export default function DossierBalanceTonPorc() {
   return (
-    <main className="page">
+    <main className="page" id="contenu" tabIndex={-1}>
       <Audience>
         <div className="dossier">
           <SuiviDuRegistre />

@@ -14,7 +14,7 @@ export default function Histoires() {
   const instruits = dossiers.filter((d) => d.statut === "instruit").length;
 
   return (
-    <main className="page">
+    <main className="page" id="contenu" tabIndex={-1}>
       <div className="feuille">
         <Entete droite="Rôle des affaires" actif="/histoires/" />
 
