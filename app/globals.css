@@ -830,3 +830,8 @@ main:focus { outline: none; }
   .sommaire { padding: 10px 10px calc(10px + env(safe-area-inset-bottom, 0px)); gap: 6px 10px; }
   .sommaire__tourner { padding: 9px 10px; font-size: 13px; }
 }
+
+/* Encart « Le saviez-vous ? » en fin de dossier */
+.encart { padding: 20px 24px; background: var(--note); border-top: 1px dashed var(--encre); font-size: 15px; line-height: 1.6; }
+.encart__titre { font-family: var(--mono); font-size: 13px; font-weight: bold; color: var(--gris); margin-bottom: 6px; }
+.encart__chute { margin-top: 10px; font-size: 13px; font-style: italic; color: var(--gris); }

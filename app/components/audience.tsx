@@ -30,9 +30,12 @@ export function Audience({ children }: { children: ReactNode }) {
 
 export function Bulletin({
   question,
+  consigne,
   choix,
 }: {
   question: string;
+  /** texte affiché sous le bulletin tant que rien n'est coché */
+  consigne: string;
   choix: Record<Choix, string>;
 }) {
   const { vote, voter } = useContext(AudienceContext);
@@ -60,7 +63,7 @@ export function Bulletin({
       <p className="bulletin__pied" data-vote={vote !== null} aria-live="polite">
         {vote
           ? `Bulletin déposé : ${vote}. Continuez la lecture.`
-          : "Cochez une case avant de continuer."}
+          : consigne}
       </p>
     </form>
   );

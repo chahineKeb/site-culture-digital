@@ -160,12 +160,16 @@ export default function DossierBalanceTonPorc() {
                 </h1>
                 <p>
                   Ce matin, une accusation est arrivée sur votre téléphone avant
-                  votre café. Vous ne connaissez pas l&apos;accusé. Vous ne
-                  connaissez pas non plus la personne qui accuse. Vous avez déjà
-                  un avis, et il est en train de se former pendant que vous lisez
-                  cette phrase.
+                  votre café.
                 </p>
-                <p>C&apos;est le principe de cette audience.</p>
+                <p>
+                  Une journaliste accuse un ancien dirigeant de télévision de
+                  propos sexistes et insistants, et lance sur les réseaux sociaux
+                  un hashtag qui devient viral. Vous ne connaissez pas
+                  l&apos;accusé. Vous ne connaissez pas non plus la personne qui
+                  accuse.
+                </p>
+                <p>C&apos;est le sujet de cette audience.</p>
                 <p>
                   Tout au long du dossier, le greffier tient le registre des
                   quatre garanties d&apos;un vrai procès. À vous de vérifier
@@ -207,13 +211,14 @@ export default function DossierBalanceTonPorc() {
                   </p>
                 </div>
                 <NoteDuGreffier>
-                  ce chiffre est réel. Celui de la pièce n°6 ne l&apos;est pas
-                  encore, il attend votre vote.
+                  ce chiffre est réel.
                 </NoteDuGreffier>
                 <p>
-                  Pour la première fois, des milliers de personnes racontent la
-                  même chose au même endroit, en même temps. Certaines
-                  n&apos;avaient jamais osé le dire ailleurs.
+                  Ce hashtag permet à des milliers de personnes de dénoncer
+                  publiquement les violences qu&apos;elles ont subies. Certaines
+                  n&apos;avaient jamais osé en parler. Pour la première fois,
+                  elles peuvent mettre des mots sur ce qu&apos;elles ont vécu et se
+                  libérer d&apos;un poids qu&apos;elles portaient en silence.
                 </p>
                 <p className="t-titre filet-fort">
                   Mais un hashtag ne vérifie rien. Il diffuse.
@@ -244,18 +249,19 @@ export default function DossierBalanceTonPorc() {
                   <Tweet pseudo="@user_9821" compteurs={["❤️ 22K", "🔁 11K"]}>
                     Il faut arrêter de le suivre.
                   </Tweet>
-                  <Tweet pseudo="@user_1234">
+                  <Tweet pseudo="@user_1234" compteurs={["❤️ 1,5K", "🔁 2K"]}>
                     Et son entourage, ils étaient au courant&nbsp;?
                   </Tweet>
                 </div>
                 <p className="t-fort espace-l">LE FEED NE S&apos;ARRÊTE PAS À L&apos;ACCUSÉ.</p>
                 <ol className="cercle" aria-label="Le cercle s'élargit">
-                  <li>la personne</li>
-                  <li>son entourage</li>
-                  <li>son employeur</li>
-                  <li>les marques</li>
-                  <li>les personnes silencieuses</li>
+                  <li>La personne est accusée.</li>
+                  <li>Son entourage doit s&apos;expliquer.</li>
+                  <li>Son employeur doit réagir.</li>
+                  <li>Les marques doivent choisir leur camp.</li>
+                  <li>Même le silence devient suspect.</li>
                 </ol>
+                <p className="t-fort">Le procès ne vise plus seulement l&apos;accusé.</p>
                 <div className="espace-l">
                   <Registre titre="pièce n°3" manquantes={2}>
                     Défense : aucune. Dans le fil, l&apos;accusé n&apos;a jamais la
@@ -289,12 +295,12 @@ export default function DossierBalanceTonPorc() {
                 </div>
                 <div className="centre espace-l">
                   <p className="t-mention">Internet :</p>
-                  <p className="t-hero">
-                    «&nbsp;Et&nbsp;Angèle&nbsp;?&nbsp;»
+                  <p className="t-display">
+                    «&nbsp;Et sa sœur, la chanteuse Angèle&nbsp;?&nbsp;»
                     <Ref n={9} />
                   </p>
                   <p className="t-fort">
-                    #BalanceTonFrère
+                    Création du #BalanceTonFrère
                     <Ref n={5} />
                   </p>
                 </div>
@@ -306,11 +312,8 @@ export default function DossierBalanceTonPorc() {
                   </p>
                 </div>
                 <NoteDuGreffier>
-                  ce mécanisme ne touche pas que les célébrités. Situation
-                  fictive, inspirée de plusieurs témoignages similaires : une
-                  vendeuse de 19 ans dont le frère est accusé sur un forum local.
-                  Elle ferme tous ses comptes pendant trois semaines, le temps que
-                  le nom de famille arrête de circuler.
+                  Internet lui demande de répondre. Tant qu&apos;elle se tait, elle
+                  devient à son tour une cible.
                 </NoteDuGreffier>
                 <Registre titre="pièce n°4" manquantes={3}>
                   Présomption d&apos;innocence : renversée. Angèle n&apos;est
@@ -381,17 +384,20 @@ export default function DossierBalanceTonPorc() {
               >
                 <h2 className="t-titre">Le problème du juge</h2>
                 <p>
-                  Imaginez : une personne est accusée sur TikTok. La vidéo fait 4
-                  millions de vues. Vous n&apos;avez aucune preuve. Vous ne
-                  connaissez ni l&apos;accusé ni la personne qui témoigne.
+                  Une vidéo TikTok accuse un homme d&apos;agression sexuelle.
+                  <br />4 millions de vues.
+                  <br />Le témoignage est crédible.
+                  <br />Les commentaires réclament une sanction.
+                  <br />Et le feed vous demande de décider.
                 </p>
                 <Bulletin
-                  question="Vous :"
+                  question="QUEL DOIT ÊTRE SON SORT ?"
+                  consigne="Choisissez. Vous avez 10 secondes. Le feed, lui, n'attendra pas."
                   choix={{
-                    A: "Je partage",
-                    B: "Je cherche plus d'informations",
-                    C: "Je ne partage pas",
-                    D: "Je condamne publiquement",
+                    A: "Je partage le témoignage pour alerter",
+                    B: "Je demande qu'il soit boycotté",
+                    C: "Je signale son compte",
+                    D: "Je condamne publiquement ses actes",
                   }}
                 />
               </Piece>
@@ -470,13 +476,25 @@ export default function DossierBalanceTonPorc() {
                     <ListeGaranties etat={() => "manque"} />
                   </div>
                 </div>
-                <p className="t-display centre espace-l">
-                  La liberté d&apos;expression et la cancel culture ne sont pas
-                  deux camps opposés. C&apos;est la même main qui tient les deux.
+                <p className="t-titre centre espace-l">
+                  La liberté d&apos;expression permet à quelqu&apos;un de dénoncer
+                  publiquement une situation, mais cette même liberté permet
+                  ensuite à une foule de réagir, de condamner, de faire pression,
+                  et parfois de basculer dans la cancel culture.
                 </p>
                 <p className="t-mention centre espace-l">
                   FIN DU PROCÈS. (Le vôtre continue.)
                 </p>
+                <aside className="encart espace-l">
+                  <p className="encart__titre">Le saviez-vous&nbsp;?</p>
+                  <p>
+                    La devise du KGB est «&nbsp;Loyauté au Parti, loyauté à la
+                    Patrie&nbsp;». La phrase «&nbsp;Faites confiance, mais
+                    vérifiez&nbsp;» est un proverbe russe devenu mondialement
+                    célèbre à la fin de la guerre froide.
+                  </p>
+                  <p className="encart__chute">On a fait confiance, mais on a vérifié&nbsp;!</p>
+                </aside>
               </Piece>
             </FeuilleVolante>
 
