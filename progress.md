@@ -2,6 +2,16 @@
 
 Dernière mise à jour : 25 septembre 2026
 
+## Prochaine session : ajouter d'autres histoires
+
+Objectif principal : mettre en ligne de nouveaux dossiers, sur le même modèle que le dossier 2017-BTP-01.
+
+1. Le groupe donne les sujets (des affaires jugées sur les réseaux, avec des sources publiques).
+2. Pour chaque sujet : vérifier les faits et rassembler les sources avant d'écrire.
+3. Ajouter le dossier dans `lib/dossiers.ts` (statut `en-instruction`), puis créer `app/dossiers/<slug>/page.tsx` : feuilles A4 dans une `Liasse`, sommaire, registre des garanties, bordereau des sources en dernière feuille.
+4. Passer le dossier en `instruit` quand tout est sourcé : il apparaît alors comme chemise cliquable sur l'accueil et sur Nos histoires.
+5. Le dossier sur la cancel culture reste toujours en tête de liste.
+
 ## Où on en est
 
 - **Site en ligne** : https://site-culture-digital.vercel.app (Vercel, déploiement automatique à chaque push sur `main`)
