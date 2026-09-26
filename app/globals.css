@@ -812,6 +812,13 @@ main:focus { outline: none; }
 
 /* l'épaisseur de la pile et les éléments inclinés ne doivent jamais créer de défilement horizontal */
 .page { overflow-x: clip; }
+/* Safari avant iOS 16 ne connaît pas clip : sans ce repli, la page s'élargit et le téléphone dézoome */
+@supports not (overflow: clip) {
+  body { overflow-x: hidden; }
+}
+/* la feuille qui s'en va ne dépasse pas la hauteur de la pile : la page ne s'allonge pas vers le bas */
+.pile__feuille[data-etat^="sort"] { bottom: 0; overflow: hidden; }
+.sommaire > * { min-width: 0; }
 /* la feuille reçoit le focus pour la lecture, pas besoin de cadre */
 .pile__feuille:focus, .pile__feuille:focus-visible { outline: none; }
 .bulletin legend { margin-bottom: 4px; line-height: 1.25; }
@@ -829,6 +836,22 @@ main:focus { outline: none; }
   .pile::after { inset: 16px -6px -16px 6px; }
   .sommaire { padding: 10px 10px calc(10px + env(safe-area-inset-bottom, 0px)); gap: 6px 10px; }
   .sommaire__tourner { padding: 9px 10px; font-size: 13px; }
+  /* les intercalaires se partagent la largeur au lieu de sortir de l'écran */
+  .sommaire__onglets li { flex: 1 1 0; min-width: 0; max-width: 44px; }
+  .sommaire__onglets button { width: 100%; min-width: 0; height: 28px; padding: 0; }
+  /* le sommaire reste collé en bas : il doit prendre le moins de hauteur possible */
+  .sommaire__onglets { padding-top: 6px; }
+  .sommaire__tourner { padding: 9px 4px; white-space: nowrap; }
+  /* sur téléphone le texte dépasse toujours le format A4 : la feuille suit son contenu */
+  .feuille-volante { aspect-ratio: auto; transform: none; }
+  /* la feuille ouverte tient dans l'écran, au-dessus du sommaire, et se lit en défilant à l'intérieur */
+  .chemise-dos { padding-bottom: 12px; }
+  .sommaire { margin-top: 12px; }
+  .pile__feuille[data-etat="active"] {
+    max-height: calc(100vh - 180px);
+    max-height: var(--hauteur-feuille, calc(100svh - 180px));
+    overflow-y: auto;
+  }
 }
 
 /* Encart « Le saviez-vous ? » en fin de dossier */

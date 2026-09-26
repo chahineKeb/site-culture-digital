@@ -39,6 +39,7 @@ export function Liasse({
   const [sortie, setSortie] = useState<Sortie>(null);
   const pile = useRef<HTMLDivElement>(null);
   const debutTouche = useRef<{ x: number; y: number } | null>(null);
+  const nav = useRef<HTMLElement>(null);
 
   const activeRef = useRef(0);
   // Avant que le script tourne (ou sans JavaScript), aucune feuille n'est bloquée.
@@ -60,16 +61,25 @@ export function Liasse({
       }
       // on revient en haut de la feuille, ou sur l'élément visé
       requestAnimationFrame(() => {
-        const el = ancre ? document.getElementById(ancre) : pile.current;
+        let el = ancre ? document.getElementById(ancre) : pile.current;
         if (!el) return;
+        const feuille = pile.current?.querySelector<HTMLElement>(`[data-feuille="${cible}"]`);
         // Sommaire et liens : on place le focus sur la feuille ouverte pour
         // que la lecture (clavier, lecteur d'écran) reprenne au bon endroit.
-        if (focus) {
-          const feuille = pile.current?.querySelector<HTMLElement>(`[data-feuille="${cible}"]`);
-          feuille?.focus({ preventScroll: true });
+        if (focus) feuille?.focus({ preventScroll: true });
+        // Sur téléphone, la feuille défile à l'intérieur de l'écran : on descend
+        // dans la feuille jusqu'à l'élément visé, et la page se cale sur la pile.
+        const defileDedans = !!feuille && feuille.scrollHeight > feuille.clientHeight;
+        if (feuille && pile.current && defileDedans) {
+          feuille.scrollTop =
+            el === pile.current
+              ? 0
+              : el.getBoundingClientRect().top - feuille.getBoundingClientRect().top + feuille.scrollTop - 16;
+          el = pile.current;
         }
         const y = el.getBoundingClientRect().top + window.scrollY - 24;
-        if (!ancre && y > window.scrollY) return; // déjà en haut de la pile
+        // déjà en haut de la pile (sur téléphone, la feuille visée est déjà dans l'écran)
+        if ((!ancre || defileDedans) && y > window.scrollY) return;
         window.scrollTo({ top: y, behavior: reduit ? "auto" : "smooth" });
       });
     },
@@ -93,6 +103,31 @@ export function Liasse({
     const id = decodeURIComponent(window.location.hash.slice(1));
     if (id) ouvrirAncre(id);
   }, [ouvrirAncre]);
+
+  // Sur téléphone, la feuille ouverte prend la place libre entre le haut de la
+  // pile et le sommaire : elle tient dans le premier écran, sans descendre.
+  useEffect(() => {
+    const telephone = window.matchMedia("(max-width: 640px)");
+    function mesurer() {
+      const p = pile.current;
+      if (!p || !nav.current) return;
+      if (!telephone.matches) {
+        p.style.removeProperty("--hauteur-feuille");
+        return;
+      }
+      const haut = p.getBoundingClientRect().top + window.scrollY;
+      // 24 px : bas de la chemise et écart avant le sommaire
+      const libre = window.innerHeight - haut - nav.current.offsetHeight - 24;
+      p.style.setProperty("--hauteur-feuille", `${Math.max(libre, 240)}px`);
+    }
+    mesurer();
+    window.addEventListener("resize", mesurer);
+    telephone.addEventListener("change", mesurer);
+    return () => {
+      window.removeEventListener("resize", mesurer);
+      telephone.removeEventListener("change", mesurer);
+    };
+  }, []);
 
   // Clavier : flèches gauche et droite
   useEffect(() => {
@@ -171,7 +206,7 @@ export function Liasse({
       </div>
       </div>
 
-      <nav className="sommaire" aria-label="Feuilles du dossier">
+      <nav ref={nav} className="sommaire" aria-label="Feuilles du dossier">
         <button
           type="button"
           className="sommaire__tourner"
